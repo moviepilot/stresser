@@ -7,41 +7,64 @@ module Httperf
     while((line = pipe.gets))
       res['output'] += line
 
-      case line
-      when /^Total: connections (\d+) requests (\d+) replies (\d+) test-duration (\d+\.\d+) s/ then
-        res['conns']    = $1.to_i
-        res['requests'] = $2.to_i
-        res['replies']  = $3.to_i
-        res['duration'] = $4.to_f
-      when /^Connection rate: (\d+\.\d)[^\d]+(\d+\.\d)[^\d]+(\d+)[^\d]/ then 
-        res['conn/s']               = $1.to_f
-        res['ms/connection']        = $2.to_f
-        res['concurrent connections max'] = $3.to_i
-      when /^Connection time .*min (\d+\.\d) avg (\d+\.\d) max (\d+\.\d) median (\d+\.\d) stddev (\d+\.\d)/ then
-        res['conn time min']    = $1.to_f
-        res['conn time avg']    = $2.to_f
-        res['conn time max']    = $3.to_f
-        res['conn time median'] = $4.to_f
-        res['conn time stddev'] = $5.to_f
-      when /^Request rate: (\d+\.\d)[^)]+\((\d+\.\d)/ then
-        res['req/s'] = $1.to_f
-        res['ms/req'] = $2.to_f
-      when /^Reply rate .*min (\d+\.\d) avg (\d+\.\d) max (\d+\.\d) stddev (\d+\.\d)/ then
-        res['replies/s min']    = $1.to_f
-        res['replies/s avg']    = $2.to_f
-        res['replies/s max']    = $3.to_f
-        res['replies/s stddev'] = $4.to_f
-      when /^Reply time .* response (\d+\.\d)/ then res['reply time'] = $1
-      when /^Reply status.+ 1xx=(\d+) 2xx=(\d+) 3xx=(\d+) 4xx=(\d+) 5xx=(\d+)/ then
-        res['status 1xx'] = $1 
-        res['status 2xx'] = $2
-        res['status 3xx'] = $3 
-        res['status 4xx'] = $4
-        res['status 5xx'] = $5 
-      when /^Net I\/O: (\d+\.\d)/ then res['net io (KB/s)'] = $1
-      when /^Errors: total (\d+)/ then res['errors'] = $1
+      title, data = line.split(':')
+      next unless title and data 
+      nrs = get_numbers(data)
+
+      case title 
+      when "Total" then
+        res['conns']    = nrs[0]
+        res['requests'] = nrs[1]
+        res['replies']  = nrs[2]
+        res['duration'] = nrs[3]
+      when "Connection rate" then 
+        res['conn/s']               = nrs[0]
+        res['ms/connection']        = nrs[1]
+        res['concurrent connections max'] = nrs[2]
+      when "Connection time [ms]" then
+        next unless data.start_with?(" min")
+        res['conn time min']    = nrs[0]
+        res['conn time avg']    = nrs[1]
+        res['conn time max']    = nrs[2]
+        res['conn time median'] = nrs[3]
+        res['conn time stddev'] = nrs[4]
+      when "Request rate" then
+        res['req/s']  = nrs[0]
+        res['ms/req'] = nrs[1]
+      when "Reply rate [replies/s]" then
+        res['replies/s min']    = nrs[0]
+        res['replies/s avg']    = nrs[1]
+        res['replies/s max']    = nrs[2]
+        res['replies/s stddev'] = nrs[3]
+      when "Reply time [ms]" then
+        res['reply time response'] = nrs[0] 
+        res['reply time transfer'] = nrs[1]
+      when "Reply status" then
+        res['status 1xx'] = nrs[0] 
+        res['status 2xx'] = nrs[1]
+        res['status 3xx'] = nrs[2] 
+        res['status 4xx'] = nrs[3]
+        res['status 5xx'] = nrs[4] 
+      when "Net I/O" then
+        unit = line.match(/Net I\/O: [\d]+\.[\d+] ([^ ]+)/)
+        res["net i/o (#{unit[1]})"] = nrs[0] 
+      when "Errors" then
+        next unless data.start_with?(' total')
+        res['errors total']       = nrs[0]
+        res['errors client-timo'] = nrs[1]
+        res['errors socket-timo'] = nrs[2]
+        res['errors connrefused'] = nrs[3]
+        res['errors connreset']   = nrs[4]
       end
     end
     res
+  end
+
+  private
+
+  def get_numbers(line)
+    line.scan(/(\d+\.?\d*)[^x]/).flatten.map do |s|
+      s.include?(".") ? s.to_f : s.to_i
+    end
   end
 end

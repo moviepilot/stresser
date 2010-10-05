@@ -6,49 +6,77 @@ describe Httperf do
 
     before(:all) do
       @pipe = File.open("spec/httperf_output.txt") 
-      @result = Httperf.parse_output(@pipe)
+      @〉 = Httperf.parse_output(@pipe)
     end
 
     it "should parse the 'Total' line correctly" do
-      @result['conns'].should    == 500
-      @result['requests'].should == 600
-      @result['replies'].should  == 300
-      @result['duration'].should == 50.354
+      @〉['conns'].should    == 500
+      @〉['requests'].should == 600
+      @〉['replies'].should  == 300
+      @〉['duration'].should == 50.354
     end
 
     it "should parse the 'Connection rate' line correctly" do
-      @result['conn/s'].should == 9.9
-      @result['ms/connection'].should == 100.7
-      @result['concurrent connections max'].should == 8
+      @〉['conn/s'].should == 9.9
+      @〉['ms/connection'].should == 100.7
+      @〉['concurrent connections max'].should == 8
     end
     
     it "should parse the 'Connection time' line correctly" do
-      @result['conn time min'].should    == 449.7
-      @result['conn time avg'].should    == 465.1
-      @result['conn time max'].should    == 2856.6
-      @result['conn time median'].should == 451.5
-      @result['conn time stddev'].should == 132.1
+      @〉['conn time min'].should    == 449.7
+      @〉['conn time avg'].should    == 465.1
+      @〉['conn time max'].should    == 2856.6
+      @〉['conn time median'].should == 451.5
+      @〉['conn time stddev'].should == 132.1
     end
 
     it "should parse the second 'Connection time' line correctly"
     it "should parse the 'Connection length' line correctly"
 
     it "should parse the 'Request rate' line correctly" do
-      @result['req/s'].should == 9.9
-      @result['ms/req'].should == 100.7
+      @〉['req/s'].should == 9.9
+      @〉['ms/req'].should == 100.7
     end
 
     it "should parse the 'Request size' line correctly"
 
     it "should parse the 'Reply rate' line correctly" do
-      @result['replies/s min'].should    == 9.2
-      @result['replies/s avg'].should    == 9.9
-      @result['replies/s max'].should    == 10.0
-      @result['replies/s stddev'].should == 0.3
+      @〉['replies/s min'].should    == 9.2
+      @〉['replies/s avg'].should    == 9.9
+      @〉['replies/s max'].should    == 10.0
+      @〉['replies/s stddev'].should == 0.3
     end
 
     it "should parse the 'Reply time' line correctly" do
+      @〉['reply time response'].should == 88.1
+      @〉['reply time transfer'].should == 302.9
     end
+
+    it "should parse the 'Reply size' line correctly"
+
+    it "should parse the 'Reply status' line correctly" do
+      @〉['status 1xx'].should == 1 
+      @〉['status 2xx'].should == 500
+      @〉['status 3xx'].should == 3 
+      @〉['status 4xx'].should == 4
+      @〉['status 5xx'].should == 5
+    end
+    
+    it "should parse the 'CPU time' line correctly"
+
+    it "should parse the 'Net I/O' line correctly" do
+      @〉['net i/o (KB/s)'].should == 534.1
+    end
+
+    it "should parse the first 'Errors' line correctly" do
+      @〉['errors total'].should       == 1234
+      @〉['errors client-timo'].should == 2345
+      @〉['errors socket-timo'].should == 3456
+      @〉['errors connrefused'].should == 4567
+      @〉['errors connreset'].should   == 5678
+    end
+
+    it "should parse the second 'Errors' line correctly"
   end
 
 end
