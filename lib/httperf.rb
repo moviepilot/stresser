@@ -1,6 +1,6 @@
 module Httperf
   extend self
-  
+
   def parse_output(pipe)
     res = Hash.new
     res['output']=''
