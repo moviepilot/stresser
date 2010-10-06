@@ -30,15 +30,22 @@ describe Httperf do
       @〉['conn time stddev'].should == 132.1
     end
 
-    it "should parse the second 'Connection time' line correctly"
-    it "should parse the 'Connection length' line correctly"
+    it "should parse the second 'Connection time' line correctly" do
+      @〉['conn time connect'].should == 74.1
+    end
+
+    it "should parse the 'Connection length' line correctly" do
+      @〉['conn length replies/conn'].should == 1.0
+    end
 
     it "should parse the 'Request rate' line correctly" do
       @〉['req/s'].should == 9.9
       @〉['ms/req'].should == 100.7
     end
 
-    it "should parse the 'Request size' line correctly"
+    it "should parse the 'Request size' line correctly" do
+      @〉['request size'].should == 65.0 
+    end
 
     it "should parse the 'Reply rate' line correctly" do
       @〉['replies/s min'].should    == 9.2
@@ -52,7 +59,12 @@ describe Httperf do
       @〉['reply time transfer'].should == 302.9
     end
 
-    it "should parse the 'Reply size' line correctly"
+    it "should parse the 'Reply size' line correctly" do
+      @〉['reply size header'].should  == 274.0
+      @〉['reply size content'].should == 54744.0
+      @〉['reply size footer'].should  == 2.0
+      @〉['reply size total'].should   == 55020.0
+    end
 
     it "should parse the 'Reply status' line correctly" do
       @〉['status 1xx'].should == 1 
@@ -62,7 +74,13 @@ describe Httperf do
       @〉['status 5xx'].should == 5
     end
     
-    it "should parse the 'CPU time' line correctly"
+    it "should parse the 'CPU time' line correctly" do
+      @〉['cpu time user'].should     == 15.65
+      @〉['cpu time system'].should   == 34.65
+      @〉['cpu time user %'].should   == 31.1
+      @〉['cpu time system %'].should == 68.8
+      @〉['cpu time total %'].should  == 99.9
+    end
 
     it "should parse the 'Net I/O' line correctly" do
       @〉['net i/o (KB/s)'].should == 534.1
@@ -76,7 +94,12 @@ describe Httperf do
       @〉['errors connreset'].should   == 5678
     end
 
-    it "should parse the second 'Errors' line correctly"
+    it "should parse the second 'Errors' line correctly" do
+      @〉['errors fd-unavail'].should  == 1
+      @〉['errors addrunavail'].should == 2
+      @〉['errors ftab-full'].should   == 3
+      @〉['errors other'].should       == 4
+    end
   end
 
 end

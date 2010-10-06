@@ -20,5 +20,5 @@ CPU time [s]: user 15.65 system 34.65 (user 31.1% system 68.8% total 99.9%)
 Net I/O: 534.1 KB/s (4.4*10^6 bps)
 
 Errors: total 1234 client-timo 2345 socket-timo 3456 connrefused 4567 connreset 5678 
-Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
+Errors: fd-unavail 1 addrunavail 2 ftab-full 3 other 4
 
