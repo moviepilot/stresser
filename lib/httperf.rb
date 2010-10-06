@@ -1,9 +1,27 @@
 module Httperf
   extend self
 
+  def run(conf)
+    httperf_opt = conf.keys.grep(/httperf/).collect {|k| "--#{k.gsub(/httperf_/, '')}=#{conf[k]}"}.join(" ")
+    httperf_cmd = "httperf --hog --server=#{conf['host']} --port=#{conf['port']} #{httperf_opt}"
+    IO.popen("#{httperf_cmd} 2>&1") do |pipe|
+      puts "\n#{httperf_cmd}"
+      res = parse_output(pipe)
+
+      # Now calculate the amount of stati per second
+      (1..5).each do |i|
+        begin
+          res["status #{i}xx/s"] =  res["status #{i}xx"].to_i / res["duration"].to_i
+        rescue
+          res["status #{i}xx/s"] = -1
+        end
+      end
+    end
+    res 
+  end
+
   def parse_output(pipe)
-    res = Hash.new
-    res['output']=''
+    res = Hash.new("")
 
     while((line = pipe.gets))
       res['output'] += line
@@ -81,6 +99,20 @@ module Httperf
           res['errors ftab-full']   = nrs[2]
           res['errors other']       = nrs[3]
         end
+      when "Session rate [sess/s]" then
+        res['session rate min']    = nrs[0]
+        res['session rate avg']    = nrs[1]
+        res['session rate max']    = nrs[2]
+        res['session rate stddev'] = nrs[3]
+        res['session rate quota']  = "#{nrs[4]}/#{nrs[5]}"
+      when "Session" then
+        res['session avg conns/sess'] = nrs[0]
+      when "Session lifetime [s]" then
+        res['session lifetime [s]'] = nrs[0]
+      when "Session failtime [s]" then
+        res['session failtime [s]'] = nrs[0]
+      when "Session length histogram" then
+        res['session length histogram'] = nrs.join(" ")
       end
     end
     res

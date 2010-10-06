@@ -100,7 +100,30 @@ describe Httperf do
       @〉['errors ftab-full'].should   == 3
       @〉['errors other'].should       == 4
     end
-  end
+   
+    it "should parse the 'Session rate' line correctly" do
+      @〉['session rate min'].should    == 35.80
+      @〉['session rate avg'].should    == 37.04
+      @〉['session rate max'].should    == 38.20
+      @〉['session rate stddev'].should == 0.98
+      @〉['session rate quota'].should  == "1000/1000"
+    end 
 
+    it "should parse the 'Session' line correctly" do
+      @〉['session avg conns/sess'].should == 2.00
+    end
+
+    it "should parse the 'Session lifetime' line correctly" do
+      @〉['session lifetime [s]'].should == 0.3
+    end
+
+    it "should parse the 'Session failtime' line correctly" do
+      @〉['session failtime [s]'].should == 0.0
+    end
+
+    it "should parse the 'Session length histogram' correctly" do
+      @〉['session length histogram'].should == "0 0 1000" 
+    end
+  end
 end
 
