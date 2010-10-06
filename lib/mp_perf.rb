@@ -88,7 +88,7 @@ class MPPerf
       puts "~"*80
 
       # Init table unless it has been 
-      report ||= Table(:column_names => results[rate].keys.sort)
+      report ||= Table(:column_names => ['rate'] + results[rate].keys.sort)
 
       # Save results of this run
       report << results[rate].merge({'rate' => rate})
