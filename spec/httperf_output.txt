@@ -22,3 +22,9 @@ Net I/O: 534.1 KB/s (4.4*10^6 bps)
 Errors: total 1234 client-timo 2345 socket-timo 3456 connrefused 4567 connreset 5678 
 Errors: fd-unavail 1 addrunavail 2 ftab-full 3 other 4
 
+Session rate [sess/s]: min 35.80 avg 37.04 max 38.20 stddev 0.98 (1000/1000)
+Session: avg 2.00 connections/session
+Session lifetime [s]: 0.3
+Session failtime [s]: 0.0
+Session length histogram: 0 0 1000
+

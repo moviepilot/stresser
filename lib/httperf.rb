@@ -2,10 +2,10 @@ module Httperf
   extend self
 
   def run(conf)
+    res = Hash.new ""
     httperf_opt = conf.keys.grep(/httperf/).collect {|k| "--#{k.gsub(/httperf_/, '')}=#{conf[k]}"}.join(" ")
     httperf_cmd = "httperf --hog --server=#{conf['host']} --port=#{conf['port']} #{httperf_opt}"
     IO.popen("#{httperf_cmd} 2>&1") do |pipe|
-      puts "\n#{httperf_cmd}"
       res = parse_output(pipe)
 
       # Now calculate the amount of stati per second
