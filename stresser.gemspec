@@ -41,12 +41,14 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Wrapper around httperf for stresstesting your app.}
+  s.summary = %q{Wrapper around httperf for stresstesting your app}
   s.test_files = [
     "spec/lib/httperf_spec.rb",
      "spec/lib/mp_perf_spec.rb",
      "spec/spec_helper.rb"
   ]
+  s.add_dependency 'ruport'
+  s.add_dependency 'optparse'
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
