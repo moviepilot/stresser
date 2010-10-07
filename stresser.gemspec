@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jannis Hermanns"]
   s.date = %q{2010-10-07}
-  s.default_executable = %q{stresser.rb}
+  s.default_executable = %q{stresser}
   s.description = %q{Wrapper around httperf for stresstesting your app.}
   s.email = %q{jannis@moviepilot.com}
-  s.executables = ["stresser.rb"]
+  s.executables = ["stresser"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.markdown"
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
      "README.markdown",
      "Rakefile",
      "VERSION",
-     "bin/stresser.rb",
+     "bin/stresser",
      "lib/httperf.rb",
      "lib/mp_perf.rb",
      "sample.conf",
@@ -48,7 +48,7 @@ Gem::Specification.new do |s|
      "spec/spec_helper.rb"
   ]
   s.add_dependency 'ruport'
-  s.add_dependency 'optparse'
+  s.add_dependency 'OptionParser'
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

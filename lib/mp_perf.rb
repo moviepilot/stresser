@@ -1,6 +1,6 @@
 require 'optparse'
 require 'ruport'
-require 'lib/httperf'
+require 'httperf'
 
 class MPPerf
 
