@@ -5,13 +5,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{stresser}
-  s.version = "0.0.0"
+  s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jannis Hermanns"]
   s.date = %q{2010-10-07}
-  s.description = %q{Wrapper around httperf for stress testing your app}
+  s.default_executable = %q{stresser.rb}
+  s.description = %q{Wrapper around httperf for stresstesting your app.}
   s.email = %q{jannis@moviepilot.com}
+  s.executables = ["stresser.rb"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.markdown"
@@ -23,6 +25,7 @@ Gem::Specification.new do |s|
      "README.markdown",
      "Rakefile",
      "VERSION",
+     "bin/stresser.rb",
      "lib/httperf.rb",
      "lib/mp_perf.rb",
      "sample.conf",
@@ -31,21 +34,19 @@ Gem::Specification.new do |s|
      "spec/lib/mp_perf_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "stresser.rb",
+     "stresser.gemspec",
      "urls.log"
   ]
   s.homepage = %q{http://github.com/moviepilot/stresser}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Wrapper around httperf for stress testing your app}
+  s.summary = %q{Wrapper around httperf for stresstesting your app.}
   s.test_files = [
     "spec/lib/httperf_spec.rb",
      "spec/lib/mp_perf_spec.rb",
      "spec/spec_helper.rb"
   ]
-  s.add_dependency 'ruport'
-  s.add_dependency 'optparse'
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
