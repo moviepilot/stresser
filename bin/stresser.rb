@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'lib/mp_perf'
 
 trap("INT") {
   puts "Terminating tests."
