@@ -7,11 +7,11 @@ class MPPerf
   def initialize(opts = {})
     @conf = {}
     OptionParser.new do |opts|
-      opts.banner = "Usage: autoperf.rb [-c config]"
-      opts.on("-o", "--output [string]", String, "csv output file") do |v|
+      opts.banner = "Usage: autoperf.rb -c your.conf -o output.csv"
+      opts.on("-o", "--output FILE", String, "This file will be overwritten with a detailed report of the stresstest") do |v|
         @output_file = v
       end
-      opts.on("-c", "--config [string]", String, "configuration file") do |v|
+      opts.on( "-c", "--config FILE", String, "Your strexser configuration file with stresstest options and parameters directly passed to httperf") do |v|
         @conf = parse_config(v)
       end
     end.parse!
