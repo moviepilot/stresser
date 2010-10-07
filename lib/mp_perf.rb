@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'ruby-debug'
 require 'optparse'
 require 'ruport'
 require 'lib/httperf'
