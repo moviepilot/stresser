@@ -5,13 +5,14 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "stresser"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "jannis@moviepilot.de"
-    gem.homepage = "http://github.com/jayniz/stresser"
+    gem.summary = %Q{Wrapper around httperf for stresstesting your app.}
+    gem.description = %Q{Wrapper around httperf for stresstesting your app. Runs httperf multiple times with different concurrency levels and generates an executive summary™ in .csv"}
+    gem.email = "jannis@moviepilot.com"
+    gem.homepage = "http://github.com/moviepilot/stresser"
     gem.authors = ["Jannis Hermanns"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_dependency 'ruport'
+    gem.add_dependency 'OptionParser'
+
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
