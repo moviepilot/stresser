@@ -19,14 +19,6 @@ First install the gem
 
     $ gem install stresser
 
-Then you cann call it from the command line:
-
-    $ ruby stresser.rb -c your_app.conf -o result.csv
-
-You will see the output of the httperf commands that
-are issued, and a full report will be written to 
-result.csv.
-
 Configuration
 ---------------
 
@@ -35,10 +27,34 @@ configure stresser. Also, see `man httperf` as all
 options in `sample.conf` beginning with `httperf_`
 go directly to the httperf commands.
 
-Example
+Examples
 ---------------
 
-TODO
+You can call stresser from the command line:
+
+    $ stresser.rb your_app.conf -o result.csv
+
+You will see the output of the httperf commands that
+are issued, and a full report will be written to 
+result.csv.
+
+As a little helper to generate log files defining some
+session workload that requires different urls,
+`stresser-loggen` is supplied. Just create a log template
+named `mylog.tpl` like this
+
+    # My session workload
+    /users/{{n}}
+      /images/foo.gif
+      /images/bar.gif
+    /users{{n}}/dashboard
+
+And then use `stresser-loggen` to reproduce these lines
+as often as you like:
+
+    stresser-loggen mylog.tpl 100 > mylog.conf
+
+The `{{n}}` will be replaced with the numbers 0-99.
 
 Thanks
 ---------------

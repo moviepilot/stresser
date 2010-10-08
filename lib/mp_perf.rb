@@ -96,7 +96,7 @@ class MPPerf
     end
 
     # Write csv
-    File.new(@output_file, "w").puts report.to_csv
+    File.new(@output_file, "w").puts report.to_csv unless report.nil?
   end
 end
 
