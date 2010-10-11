@@ -11,8 +11,8 @@ begin
     gem.homepage = "http://github.com/moviepilot/stresser"
     gem.authors = ["Jannis Hermanns"]
     gem.add_dependency 'ruport'
+    gem.add_dependency 'gruff'
     gem.add_dependency 'OptionParser'
-
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
