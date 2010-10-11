@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "bin/stresser",
      "bin/stresser-grapher",
      "bin/stresser-loggen",
+     "build/stresser-0.1.0.gem",
      "lib/grapher.rb",
      "lib/httperf.rb",
      "lib/mp_perf.rb",

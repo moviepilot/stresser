@@ -3,7 +3,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'rubygems'
 require 'gruff'
-require 'lib/grapher'
+require 'grapher'
 
 begin
   Grapher.error_count(ARGV[0], ARGV[1])
