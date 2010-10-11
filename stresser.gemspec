@@ -5,14 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{stresser}
-  s.version = "0.0.3"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jannis Hermanns"]
-  s.date = %q{2010-10-08}
+  s.date = %q{2010-10-11}
   s.description = %q{Wrapper around httperf for stresstesting your app. Runs httperf multiple times with different concurrency levels and generates an executive summary™ in .csv"}
   s.email = %q{jannis@moviepilot.com}
-  s.executables = ["stresser", "stresser-loggen"]
+  s.executables = ["stresser", "stresser-grapher", "stresser-loggen"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.markdown"
@@ -25,7 +25,9 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "bin/stresser",
+     "bin/stresser-grapher",
      "bin/stresser-loggen",
+     "lib/grapher.rb",
      "lib/httperf.rb",
      "lib/mp_perf.rb",
      "sample.conf",
@@ -54,13 +56,16 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<ruport>, [">= 0"])
+      s.add_runtime_dependency(%q<gruff>, [">= 0"])
       s.add_runtime_dependency(%q<OptionParser>, [">= 0"])
     else
       s.add_dependency(%q<ruport>, [">= 0"])
+      s.add_dependency(%q<gruff>, [">= 0"])
       s.add_dependency(%q<OptionParser>, [">= 0"])
     end
   else
     s.add_dependency(%q<ruport>, [">= 0"])
+    s.add_dependency(%q<gruff>, [">= 0"])
     s.add_dependency(%q<OptionParser>, [">= 0"])
   end
 end
