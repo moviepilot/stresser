@@ -60,21 +60,11 @@ class MPPerf
     # Run httperf 
     res = Httperf.run(conf)
 
-
     return res
   end
 
   def run
     results = {}
-    # report = Table(:column_names => ['rate',             'requests',        'duration',         'replies', 'conn/s',
-    #                                  'ms/connection',    'concurrent conns max', 
-    #                                  'conn time min',    'conn time avg',   'conn time max', 
-    #                                  'conn time median', 'conn time stddev','req/s', 
-    #                                  'replies/s min',    'replies/s avg',   'replies/s max', 
-    #                                  'status 1xx',       'status 1xx/s',    'status 2xx',       'status 2xx/s',
-    #                                  'status 3xx',       'status 3xx/s',    'status 4xx',       'status 4xx/s', 
-    #                                  'status 5xx',       'status 5xx/s',    'replies/s stddev', 'reply time', 
-    #                                  'net io (KB/s)',    'errors'])
     report = nil
     (@conf['low_rate']..@conf['high_rate']).step(@conf['rate_step']) do |rate|
 
@@ -85,14 +75,14 @@ class MPPerf
       puts "#{results[rate].delete('output')}\n"
       puts "~"*80
 
-      # Init table unless it has been 
+      # Init table unless it's there already
       report ||= Table(:column_names => ['rate'] + results[rate].keys.sort)
 
       # Save results of this run
       report << results[rate].merge({'rate' => rate})
 
       # Try to keep old pending requests from influencing the next round
-      sleep(10)
+      sleep(@conf['sleep_time'] || 0)
     end
 
     # Write csv
