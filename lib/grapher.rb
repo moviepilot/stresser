@@ -4,7 +4,7 @@ require 'gruff'
 module Grapher
   extend self
 
-  def error_count(csv_file, outfile, options = {})
+  def error_count(csv_file, outfile)
 
     # Prepare interesting columns
     columns = { "req/s" => "rate", 
@@ -15,14 +15,13 @@ module Grapher
                 "5xx/s" => "status 5xx/s" }
 
     # Draw graph
-    g = graph(csv_file, columns, options) 
+    g = graph(csv_file, columns, :title => 'Error rate' )
 
     # Save graph
     g.write(outfile)
   end
 
   def graph(csv_file, columns, options = {})
-    
     # Load csv
     table = Table(csv_file)
 
@@ -44,11 +43,7 @@ module Grapher
     # Prepare line graph
     g = Gruff::Line.new
     g.title = title
-   
-    # Some default options
-    g.hide_dots = true
-    g.theme_keynote
-    g.line_width = 2
+    set_defaults(g)   
 
     # Add datas
     data.each do |name, values|
@@ -68,5 +63,25 @@ module Grapher
     array.each_with_index{ |v, i| hash[i] = v }
     hash
   end
+
+  def set_defaults(g)
+    g.hide_dots        = true 
+    g.line_width       = 2
+    g.legend_font_size = 20
+    g.sort             = false
+    g.x_axis_label     = "concurrency (req/s)"
+
+    colors = %w{EFD279 95CBE9 024769 AFD775 2C5700 DE9D7F B6212D 7F5417}.map{|c| "\##{c}"} 
+
+    g.theme = {
+      :colors => colors,
+      :marker_color => "#cdcdcd",
+      :font_color => 'black',
+      :background_colors => ['#fefeee', '#ffffff']
+    }
+
+  end
+
+
 end
 
