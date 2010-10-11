@@ -44,7 +44,12 @@ module Grapher
     # Prepare line graph
     g = Gruff::Line.new
     g.title = title
-    
+   
+    # Some default options
+    g.hide_dots = true
+    g.theme_keynote
+    g.line_width = 2
+
     # Add datas
     data.each do |name, values|
       g.data name, values.map(&:to_i)

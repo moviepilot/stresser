@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require 'rubygems'
+require 'gruff'
+require 'lib/grapher'
+
+begin
+  Grapher.error_count(ARGV[0], ARGV[1])
+rescue Exception => e
+  puts "ERROR:"
+  puts e
+  puts "~"*80
+  puts "Usage: #{__FILE__} your_report.csv outfile.png"
+end
+
