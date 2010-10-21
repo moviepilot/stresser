@@ -2,12 +2,15 @@ require 'optparse'
 require 'ruport'
 require 'httperf'
 
+#
+#  Takes command line options and attempts to make a benchmark.
+#
 class MPPerf
 
   def initialize(opts = {})
     @conf = {}
     OptionParser.new do |opts|
-      opts.banner = "Usage: autoperf.rb -c your.conf -o output.csv"
+      opts.banner = "Usage: stresser -c your.conf -o output.csv"
       opts.on("-o", "--output FILE", String, "This file will be overwritten with a detailed report of the stresstest") do |v|
         @output_file = v
       end
@@ -17,6 +20,11 @@ class MPPerf
     end.parse!
 
     run()
+
+    puts "~"*80
+    puts "Great, now create a graph with"
+    puts "  stresser-grapher #{@output_file} graph.png; open graph.png"
+    puts ""
   end
 
   #

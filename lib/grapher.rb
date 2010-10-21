@@ -8,11 +8,11 @@ module Grapher
 
     # Prepare interesting columns
     columns = { "requests/s" => "req/s", 
-                "1xx" => "status 1xx/s",
-                "2xx" => "status 2xx/s",
-                "3xx" => "status 3xx/s",
-                "4xx" => "status 4xx/s",
-                "5xx" => "status 5xx/s" }
+                "1xx/s" => "status 1xx/s",
+                "2xx/s" => "status 2xx/s",
+                "3xx/s" => "status 3xx/s",
+                "4xx/s" => "status 4xx/s",
+                "5xx/s" => "status 5xx/s" }
 
     # Draw graph
     g = graph(csv_file, columns, :title => 'Error rate' )
