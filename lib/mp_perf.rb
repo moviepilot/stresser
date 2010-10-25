@@ -23,7 +23,7 @@ class MPPerf
 
     puts "~"*80
     puts "Great, now create a graph with"
-    puts "  stresser-grapher #{@output_file} graph.png; open graph.png"
+    puts "  stresser-grapher -o #{File.dirname(@output_file)} #{@output_file}"
     puts ""
   end
 

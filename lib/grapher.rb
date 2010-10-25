@@ -15,6 +15,9 @@ module Grapher
       outfile = File.join(options[:output_dir], "#{prefix}_#{report}.png")
       generate_report(report, options[:csv_file], outfile)
     end    
+    puts "~"*80
+    puts "Great, now open the images with"
+    puts "  open #{File.join(options[:output_dir], prefix)}*.png"
   end
 
   def generate_report(report_type, csv_file, outfile)
