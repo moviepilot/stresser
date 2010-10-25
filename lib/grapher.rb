@@ -1,7 +1,7 @@
 require 'ruport'
 require 'gruff'
 require 'yaml'
-require 'ruby-debug'
+
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 module Grapher
