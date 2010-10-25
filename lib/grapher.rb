@@ -7,25 +7,45 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 module Grapher
   extend self
 
+  #
+  #  Parses command line options and creates one or a bunch of 
+  #  reports, stores them in the given directory, and advises
+  #  the user to go ahead and open them
+  #
   def generate_reports(options)
+
+    # Let's keep things clean
     prefix = Time.now.strftime("%Y_%m_%d_%H_%M")
+
+    # Generate a single report or all of them?
     report_keys = reports(options[:report_definitions]).keys
     report_keys = [options[:report]] if report_keys.include?(options[:report])
+
+    # Generate report(s)
     report_keys.each do |report|
       outfile = File.join(options[:output_dir], "#{prefix}_#{report}.png")
       generate_report(report, options[:csv_file], outfile)
     end    
+
+    # Tell user what to do next
     puts "~"*80
     puts "Great, now open the images with"
     puts "  open #{File.join(options[:output_dir], prefix)}*.png"
   end
 
+  #
+  #  Generates a single report given by name. Uses the yml file for
+  #  report names
+  #
   def generate_report(report_type, csv_file, outfile)
     puts "Generating #{report_type} to #{outfile}..."
     columns = (reports[report_type] or reports[reports.keys.first])
     save_graph(csv_file, columns, outfile) 
   end
 
+  #
+  #  Creates and saves a graph
+  #
   def save_graph(csv_file, columns, outfile, options = {})
     # Draw graph
     g = graph(csv_file, columns, :title => 'Error rate' )
@@ -34,8 +54,10 @@ module Grapher
     g.write(outfile)
   end
 
+  #
+  #  Creates a graph from a csv file
+  #
   def graph(csv_file, columns, options = {})
-    # Load csv
     table = Table(csv_file)
 
     # Prepare data structure
@@ -50,11 +72,15 @@ module Grapher
     g = line_graph( options[:title], data, labels )
   end
 
-  def reports(report = nil, yaml_file = 'lib/reports.yml')
+  #
+  #  Reads a YAML file that defines how reports are built
+  #
+  def reports(report = nil, yaml_file = File.join(File.dirname(__FILE__), "reports.yml"))
     y = YAML.load(File.read(yaml_file)) 
   end
 
   protected
+
 
   def line_graph(title, data, labels)
 
