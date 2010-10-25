@@ -13,6 +13,7 @@ begin
     gem.add_dependency 'ruport'
     gem.add_dependency 'gruff'
     gem.add_dependency 'OptionParser'
+    gem.add_dependency 'trollop'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

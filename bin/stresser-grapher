@@ -4,18 +4,29 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'rubygems'
 require 'gruff'
 require 'grapher'
+require 'trollop'
 
-begin
-  Grapher.generate_report(ARGV[2], ARGV[0], ARGV[1])
-  `open #{ARGV[1]}` if ARGV.last == "open" 
-  puts "Done."
-rescue Exception => e
-  puts "ERROR:"
-  puts e.message
-  puts e.backtrace
-  puts "~"*80
-  puts "Usage: stresser-grapher your_report.csv outfile.png report_type"
-  puts "  Supported report_types: #{Grapher.reports.keys.join(', ')}"
-  puts "  If you supply 'open' as a last parameter, the generated image will be opened for you."
-end
+opts = Trollop::options do
+  banner <<-EOS
+Takes a stresser csv file and creates graph images from it.
 
+Usage:
+       stresser-grapher [options] csv_file
+where [options] are:
+EOS
+  opt :report, "The report to generate",
+        :type => String
+  opt :report_definitions, "You can provide your own yaml file",
+        :type => String,
+        :default => "lib/reports.yml"
+  opt :output_dir, "Output directory",
+        :type => String
+end.merge(:csv_file => ARGV.last)
+  
+Trollop::die :output_dir,  "must be writeable"   unless opts[:output_dir] and File.stat(opts[:output_dir]).writable? 
+Trollop::die :oputput_dir, "must be a directory" unless opts[:output_dir] and File.stat(opts[:output_dir]).directory?
+
+Grapher.generate_reports(opts)
+
+`open #{ARGV[1]}` if ARGV.last == "open" 
+puts "Done."

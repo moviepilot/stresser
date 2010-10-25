@@ -1,12 +1,20 @@
 require 'ruport'
 require 'gruff'
 require 'yaml'
-require 'ruby-debug'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 module Grapher
   extend self
+
+  def generate_reports(options)
+    prefix = Time.now.strftime("%Y_%m_%d_%H_%M")
+    reports(options[:report_definitions]).keys.each do |report|
+      outfile = File.join(options[:output_dir], "#{prefix}_#{report}.png")
+      puts "Generating #{outfile}..."
+      generate_report(report, options[:csv_file], outfile)
+    end    
+  end
 
   def generate_report(report_type, csv_file, outfile)
     columns = (reports[report_type] or reports[reports.keys.first])
@@ -37,8 +45,8 @@ module Grapher
     g = line_graph( options[:title], data, labels )
   end
 
-  def reports(report = nil)
-    y = YAML.load(File.read('lib/reports.yml')) 
+  def reports(report = nil, yaml_file = 'lib/reports.yml')
+    y = YAML.load(File.read(yaml_file)) 
   end
 
   protected
