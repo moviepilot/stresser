@@ -1,7 +1,7 @@
 require 'ruport'
 require 'gruff'
 require 'yaml'
-
+require 'ruby-debug'
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 module Grapher
@@ -9,14 +9,16 @@ module Grapher
 
   def generate_reports(options)
     prefix = Time.now.strftime("%Y_%m_%d_%H_%M")
-    reports(options[:report_definitions]).keys.each do |report|
+    report_keys = reports(options[:report_definitions]).keys
+    report_keys = [options[:report]] if report_keys.include?(options[:report])
+    report_keys.each do |report|
       outfile = File.join(options[:output_dir], "#{prefix}_#{report}.png")
-      puts "Generating #{outfile}..."
       generate_report(report, options[:csv_file], outfile)
     end    
   end
 
   def generate_report(report_type, csv_file, outfile)
+    puts "Generating #{report_type} to #{outfile}..."
     columns = (reports[report_type] or reports[reports.keys.first])
     save_graph(csv_file, columns, outfile) 
   end
