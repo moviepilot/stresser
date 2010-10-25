@@ -6,11 +6,16 @@ require 'gruff'
 require 'grapher'
 
 begin
-  Grapher.error_count(ARGV[0], ARGV[1])
+  Grapher.generate_report(ARGV[2], ARGV[0], ARGV[1])
+  `open #{ARGV[1]}` if ARGV.last == "open" 
+  puts "Done."
 rescue Exception => e
   puts "ERROR:"
-  puts e
+  puts e.message
+  puts e.backtrace
   puts "~"*80
-  puts "Usage: #{__FILE__} your_report.csv outfile.png"
+  puts "Usage: stresser-grapher your_report.csv outfile.png report_type"
+  puts "  Supported report_types: #{Grapher.reports.keys.join(', ')}"
+  puts "  If you supply 'open' as a last parameter, the generated image will be opened for you."
 end
 

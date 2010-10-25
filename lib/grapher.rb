@@ -1,19 +1,19 @@
 require 'ruport'
 require 'gruff'
+require 'yaml'
+require 'ruby-debug'
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 module Grapher
   extend self
 
-  def error_count(csv_file, outfile)
+  def generate_report(report_type, csv_file, outfile)
+    columns = (reports[report_type] or reports[reports.keys.first])
+    save_graph(csv_file, columns, outfile) 
+  end
 
-    # Prepare interesting columns
-    columns = { "requests/s" => "req/s", 
-                "1xx/s" => "status 1xx/s",
-                "2xx/s" => "status 2xx/s",
-                "3xx/s" => "status 3xx/s",
-                "4xx/s" => "status 4xx/s",
-                "5xx/s" => "status 5xx/s" }
-
+  def save_graph(csv_file, columns, outfile, options = {})
     # Draw graph
     g = graph(csv_file, columns, :title => 'Error rate' )
 
@@ -28,12 +28,17 @@ module Grapher
     # Prepare data structure
     data = Hash.new
     labels = table.column "rate"
-    columns.each do |label, column_name|
-      data[label] = table.column column_name
+    columns.each_index do |i|
+      next unless i%2==0
+      data[columns[i]] = table.column columns[i+1]
     end
 
     # Draw graph
     g = line_graph( options[:title], data, labels )
+  end
+
+  def reports(report = nil)
+    y = YAML.load(File.read('lib/reports.yml')) 
   end
 
   protected
