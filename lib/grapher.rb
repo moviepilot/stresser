@@ -40,7 +40,7 @@ module Grapher
   def generate_report(report_type, csv_file, outfile)
     puts "Generating #{report_type} to #{outfile}..."
     columns = (reports[report_type] or reports[reports.keys.first])
-    save_graph(csv_file, columns, outfile) 
+    save_graph(csv_file, columns, outfile, :title => report_type) 
   end
 
   #
@@ -48,7 +48,7 @@ module Grapher
   #
   def save_graph(csv_file, columns, outfile, options = {})
     # Draw graph
-    g = graph(csv_file, columns, :title => 'Error rate' )
+    g = graph(csv_file, columns, :title => options[:title] )
 
     # Save graph
     g.write(outfile)
