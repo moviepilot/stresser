@@ -6,8 +6,31 @@ stati_per_second:
    4xx/s, status 4xx/s,
    5xx/s, status 5xx/s ]
 
-errors_per_second:
+errors:
   [Requests, requests,
-   Timeouts, errors client-timo,
-   Filedescriptor unavail, errors fd-unavail, 
+   Client timeouts, errors client-timo,
+   Socket timeouts, errors socket-timo,
+   Filedescriptor unavail, errors fd-unavail,
+   Ftab full, errors ftab-full,
+   Addr unavail, errors addrunavail,
+   Conn. refused, errors connrefused,
+   Conn. reset, errors connreset,
    Total errors, errors total]
+
+connection_time:
+  [Average, conn time avg,
+   Max, conn time max,
+   Median, conn time median,
+   Min, conn time min,
+   Std. dev., conn time stddev]
+ 
+replies_per_second:
+  [Average, replies/s avg,
+   Max, replies/s max,
+   Min, replies/s min,
+   Std. dev., replies/s stddev]
+
+cpu:
+  [System, cpu time system %,
+   Total, cpu time total %,
+   User, cpu time user %]
