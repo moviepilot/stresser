@@ -16,7 +16,7 @@ where [options] are:
 EOS
   opt :report, "The report to generate",
         :type => String
-  opt :report_definitions, "You can provide your own yaml file",
+  opt :report_definitions, "You can provide your own yaml file - it maps csv columns to data rows in an image",
         :type => String,
         :default => "lib/reports.yml"
   opt :output_dir, "Output directory",
@@ -24,7 +24,7 @@ EOS
 end.merge(:csv_file => ARGV.last)
   
 Trollop::die :output_dir,  "must be writeable"   unless opts[:output_dir] and File.stat(opts[:output_dir]).writable? 
-Trollop::die :oputput_dir, "must be a directory" unless opts[:output_dir] and File.stat(opts[:output_dir]).directory?
+Trollop::die :output_dir, "must be a directory"  unless opts[:output_dir] and File.stat(opts[:output_dir]).directory?
 
 Grapher.generate_reports(opts)
 

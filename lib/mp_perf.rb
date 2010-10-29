@@ -14,7 +14,7 @@ class MPPerf
       opts.on("-o", "--output FILE", String, "This file will be overwritten with a detailed report of the stresstest") do |v|
         @output_file = v
       end
-      opts.on( "-c", "--config FILE", String, "Your strexser configuration file with stresstest options and parameters directly passed to httperf") do |v|
+      opts.on( "-c", "--config FILE", String, "Your stresser configuration file with stresstest options and parameters directly passed to httperf") do |v|
         @conf = parse_config(v)
       end
     end.parse!
@@ -23,7 +23,7 @@ class MPPerf
 
     puts "~"*80
     puts "Great, now create a graph with"
-    puts "  stresser-grapher -o #{File.dirname(@output_file)} #{@output_file}"
+    puts "  stresser-grapher -o #{File.expand_path(File.dirname(@output_file))} #{@output_file}"
     puts ""
   end
 

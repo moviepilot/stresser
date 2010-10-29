@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{stresser}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jannis Hermanns"]
-  s.date = %q{2010-10-25}
+  s.date = %q{2010-10-29}
   s.description = %q{Wrapper around httperf for stresstesting your app. Runs httperf multiple times with different concurrency levels and generates an executive summary™ in .csv"}
   s.email = %q{jannis@moviepilot.com}
   s.executables = ["stresser", "stresser-grapher", "stresser-loggen"]
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "bin/stresser",
      "bin/stresser-grapher",
      "bin/stresser-loggen",
+     "build/stresser-0.2.1.gem",
      "lib/grapher.rb",
      "lib/httperf.rb",
      "lib/mp_perf.rb",
