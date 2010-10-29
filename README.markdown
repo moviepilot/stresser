@@ -21,11 +21,19 @@ to labels for the image).
 
 <img src="http://dl.dropbox.com/u/1953503/github/stresser/connection_time.png" />
 
+<img src="http://dl.dropbox.com/u/1953503/github/stresser/connections.png" />
+
 <img src="http://dl.dropbox.com/u/1953503/github/stresser/cpu.png" />
 
 <img src="http://dl.dropbox.com/u/1953503/github/stresser/errors.png" />
 
+<img src="http://dl.dropbox.com/u/1953503/github/stresser/milliseconds_per.png" />
+
+<img src="http://dl.dropbox.com/u/1953503/github/stresser/net-io.png" />
+
 <img src="http://dl.dropbox.com/u/1953503/github/stresser/replies_per_second.png" />
+
+<img src="http://dl.dropbox.com/u/1953503/github/stresser/session_rate.png" />
 
 <img src="http://dl.dropbox.com/u/1953503/github/stresser/stati_per_second.png" />
 
