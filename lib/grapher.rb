@@ -114,7 +114,7 @@ module Grapher
     g.legend_font_size = 20
     g.marker_font_size = 10
     g.sort             = false
-    g.x_axis_label     = "concurrency (req/s)"
+    g.x_axis_label     = "concurrency (amount of parallel req)"
 
     colors = %w{EFD279 95CBE9 024769 AFD775 2C5700 DE9D7F B6212D 7F5417}.map{|c| "\##{c}"} 
 
