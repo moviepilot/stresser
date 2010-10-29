@@ -1,5 +1,5 @@
 stati_per_second:
-  [requests/s, req/s,
+  [Requests/s, req/s,
    1xx/s, status 1xx/s,
    2xx/s, status 2xx/s,
    3xx/s, status 3xx/s,
@@ -34,3 +34,20 @@ cpu:
   [System, cpu time system %,
    Total, cpu time total %,
    User, cpu time user %]
+
+session_rate:
+  [Average, session rate avg,
+   Maximum, session rate max,
+   Minimum, session rate min,
+   Std. dev., session rate stddev]
+
+milliseconds_per:
+  [ms per connection, ms/connection,
+   ms per request, ms/req]
+
+net_io:
+  [KB/s, net i/o (KB/s)]
+
+connections:
+  [Requests/s, req/s,
+   Connections per second, conn/s]

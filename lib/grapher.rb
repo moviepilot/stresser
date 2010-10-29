@@ -112,6 +112,7 @@ module Grapher
     g.hide_dots        = true 
     g.line_width       = 2
     g.legend_font_size = 20
+    g.marker_font_size = 10
     g.sort             = false
     g.x_axis_label     = "concurrency (req/s)"
 
