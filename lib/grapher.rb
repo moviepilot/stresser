@@ -23,8 +23,12 @@ module Grapher
 
     # Generate report(s)
     report_keys.each do |report|
-      outfile = File.join(options[:output_dir], "#{prefix}_#{report}.png")
-      generate_report(report, options[:csv_file], outfile)
+      begin
+        outfile = File.join(options[:output_dir], "#{prefix}_#{report}.png")
+        generate_report(report, options[:csv_file], outfile)
+      rescue => e
+        puts "Error generating #{report}: #{e.inspect}"
+      end
     end    
 
     # Tell user what to do next
