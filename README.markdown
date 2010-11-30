@@ -100,6 +100,10 @@ as often as you like:
 
 The `{{n}}` will be replaced with the numbers 0-99.
 
+## Tests
+Run `rake spec` to run them tests. Currently, only httperf's output of a session based
+replay log is parsed, but I will add more.
+
 ## Thanks
 
 Stresser is based on igvita's autoperf driver for httperf.
