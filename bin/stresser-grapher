@@ -23,7 +23,7 @@ EOS
         :type => String
 end.merge(:csv_file => ARGV.last)
   
-Trollop::die :output_dir,  "must be writeable"   unless opts[:output_dir] and File.stat(opts[:output_dir]).writable? 
+Trollop::die :output_dir, "must be writeable"    unless opts[:output_dir] and File.stat(opts[:output_dir]).writable? 
 Trollop::die :output_dir, "must be a directory"  unless opts[:output_dir] and File.stat(opts[:output_dir]).directory?
 
 Grapher.generate_reports(opts)
