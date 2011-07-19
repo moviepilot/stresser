@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "stresser"
     gem.summary = %Q{Wrapper around httperf for stresstesting your app.}
-    gem.description = %Q{Wrapper around httperf for stresstesting your app. Runs httperf multiple times with different concurrency levels and generates an executive summary™ in .csv"}
+    gem.description = %Q{Wrapper around httperf for stresstesting your app. Runs httperf multiple times with different concurrency levels and generates an executive summary in .csv}
     gem.email = "jannis@moviepilot.com"
     gem.homepage = "http://github.com/moviepilot/stresser"
     gem.authors = ["Jannis Hermanns"]
