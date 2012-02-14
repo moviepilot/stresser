@@ -56,7 +56,7 @@ go directly to the httperf commands.
 ### Stresstest
 You can call stresser from the command line:
 
-    $ stresser your_app.conf -o /tmp/stress/result.csv
+    $ stresser -c your_app.conf -o /tmp/stress/result.csv
     ... lots of httperf output...
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
     Great, now create a graph with
