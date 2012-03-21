@@ -1,6 +1,7 @@
 require 'ruport'
 require 'gruff'
 require 'yaml'
+require 'csv'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
@@ -44,7 +45,7 @@ module Grapher
   def generate_report(report_type, csv_file, outfile)
     puts "Generating #{report_type} to #{outfile}..."
     columns = (reports[report_type] or reports[reports.keys.first])
-    save_graph(csv_file, columns, outfile, :title => report_type) 
+    save_graph(csv_file, columns, outfile, title: report_type) 
   end
 
   #
@@ -52,7 +53,7 @@ module Grapher
   #
   def save_graph(csv_file, columns, outfile, options = {})
     # Draw graph
-    g = graph(csv_file, columns, :title => options[:title] )
+    g = graph(csv_file, columns, title: options[:title] )
 
     # Save graph
     g.write(outfile)
@@ -61,33 +62,34 @@ module Grapher
   #
   #  Creates a graph from a csv file
   #
+  #  The headers are converted to symbols in the Ruby 1.9.X CSV library
   def graph(csv_file, columns, options = {})
-    table = Table(csv_file)
+    table = CSV.table(csv_file, headers: true)
 
     # Prepare data structure
     data = Hash.new
-    labels = table.column "rate"
+
+    labels = table.values_at(:rate).flatten
     columns.each_index do |i|
       next unless i%2==0
-      data[columns[i]] = table.column columns[i+1]
+      col_name = columns[i+1].gsub(' ','_').gsub('/','')
+      data[columns[i]] = table.values_at(col_name.to_sym).flatten
     end
 
     # Draw graph
-    g = line_graph( options[:title], data, labels )
+    line_graph( options[:title], data, labels )
   end
 
   #
   #  Reads a YAML file that defines how reports are built
   #
   def reports(report = nil, yaml_file = File.join(File.dirname(__FILE__), "reports.yml"))
-    y = YAML.load(File.read(yaml_file)) 
+    YAML.load(File.read(yaml_file)) 
   end
 
   protected
 
-
   def line_graph(title, data, labels)
-
     # Prepare line graph
     g = Gruff::Line.new
     g.title = title
@@ -95,7 +97,7 @@ module Grapher
 
     # Add datas
     data.each do |name, values|
-      g.data name, values.map(&:to_i)
+      g.data(name, values.map(&:to_i))
     end
 
     # Add labels
@@ -106,9 +108,9 @@ module Grapher
   end
 
   def to_hash(array)
-    return array if array.class==Hash
+    return array if array.class == Hash
     hash = Hash.new
-    array.each_with_index{ |v, i| hash[i] = v }
+    array.each_with_index {|v, i| hash[i] = v.to_s }
     hash
   end
 
@@ -123,14 +125,12 @@ module Grapher
     colors = %w{EFD279 95CBE9 024769 AFD775 2C5700 DE9D7F B6212D 7F5417}.map{|c| "\##{c}"} 
 
     g.theme = {
-      :colors => colors,
-      :marker_color => "#cdcdcd",
-      :font_color => 'black',
-      :background_colors => ['#fefeee', '#ffffff']
+      colors: colors,
+      marker_color: "#cdcdcd",
+      font_color: 'black',
+      background_colors: ['#fefeee', '#ffffff']
     }
-
   end
-
 
 end
 
