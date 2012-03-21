@@ -2,7 +2,7 @@ require 'optparse'
 require 'ruport'
 require 'httperf'
 require 'trollop'
-
+require 'csv'
 
 #
 #  Takes command line options and attempts to make a benchmark.
@@ -87,7 +87,8 @@ class MPPerf
 
   def run_suite
     results = {}
-    report = nil
+    # report = nil
+    report = CSV::Table.new([])
     (@conf['low_rate']..@conf['high_rate']).step(@conf['rate_step']) do |rate|
 
       # Run httperf
@@ -98,10 +99,15 @@ class MPPerf
       puts "~"*80
 
       # Init table unless it's there already
-      report ||= Table(:column_names => ['rate'] + results[rate].keys.sort)
+      # report ||= CSV::Table.new(:column_names => ['rate'] + results[rate].keys.sort)
+      # table_headers ||= ['rate'] + results[rate].keys
+      table_headers ||= results[rate].keys + ['rate']
+      report[0]     ||= CSV::Row.new(table_headers, [], true)
 
       # Save results of this run
-      report << results[rate].merge({'rate' => rate})
+      # report << results[rate].merge({'rate' => rate})
+      report_hash = results[rate].merge({'rate' => rate})
+      report << report_hash.values
 
       # Try to keep old pending requests from influencing the next round
       sleep(@conf['sleep_time'] || 0)
