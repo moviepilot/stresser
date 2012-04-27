@@ -5,7 +5,7 @@ module Httperf
     res = Hash["started at", Time.now]
 
     httperf_opt = conf.keys.grep(/httperf/).collect {|k| "--#{k.gsub(/httperf_/, '')}=#{conf[k]}"}.join(" ")
-    httperf_cmd = "httperf --hog --server=#{conf['host']} --port=#{conf['port']} #{httperf_opt}"
+    httperf_cmd = "httperf --hog --server=#{conf['host']} --port=#{conf['port']} --uri='#{conf['uri']}' #{httperf_opt}"
     IO.popen("#{httperf_cmd} 2>&1") do |pipe|
       res.merge! parse_output(pipe)
 
