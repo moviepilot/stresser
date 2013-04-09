@@ -28,7 +28,7 @@ class MPPerf
                         :type => String
     end
 
-    Trollop::die :output_file, "must be a writeable file" unless @conf[:config_file]
+    Trollop::die :output_file, "must be a writeable file" unless @conf[:output_file]
     Trollop::die :config_file, "must be a readable file"  unless @conf[:config_file]
   end
 
@@ -71,15 +71,15 @@ class MPPerf
   #
   def single_benchmark(conf)
     cloned_conf = conf.clone
- 
+
     # Shuffle the logfile around?
     if conf['httperf_wlog'] and conf['shuffle']=='true'
       file = conf['httperf_wlog'].split(',').last
       `cat #{file} | tr "\\0" "\\n" | sort --random-sort | tr "\\n" "\\0" > #{file}.shuffled`
       cloned_conf['httperf_wlog'] = conf['httperf_wlog']+'.shuffled'
     end
- 
-    # Run httperf 
+
+    # Run httperf
     res = Httperf.run(cloned_conf)
 
     return res
@@ -94,7 +94,7 @@ class MPPerf
       # Run httperf
       results[rate] = single_benchmark(@conf.merge({'httperf_rate' => rate}))
 
-      # Show that we're alive 
+      # Show that we're alive
       puts "#{results[rate].delete('output')}\n"
       puts "~"*80
 
@@ -116,7 +116,7 @@ class MPPerf
     # Write csv
     File.new(@conf[:output_file], "w").puts report.to_csv unless report.nil?
   end
-  
+
   def display_hints
     puts "~"*80
     puts "Great, now create a graph with"
