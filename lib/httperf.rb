@@ -4,7 +4,7 @@ module Httperf
   def run(conf)
     res = Hash["started at", Time.now]
 
-    httperf_opt = conf.keys.grep(/httperf/).collect {|k| "--#{k.gsub(/httperf_/, '')}=#{conf[k]}"}.join(" ")
+    httperf_opt = conf.keys.grep(/httperf/).collect {|k| conf[k] == "nil" ? "--#{k.gsub(/httperf_/, '')}" : "--#{k.gsub(/httperf_/, '')}=#{conf[k]}"}.join(" ")
     httperf_cmd = "httperf --hog --server=#{conf['host']} --port=#{conf['port']} --uri='#{conf['uri']}' #{httperf_opt}"
     IO.popen("#{httperf_cmd} 2>&1") do |pipe|
       res.merge! parse_output(pipe)
@@ -18,7 +18,7 @@ module Httperf
         end
       end
     end
-    res 
+    res
   end
 
   def parse_output(pipe)
@@ -28,16 +28,16 @@ module Httperf
       res['output'] += line
 
       title, data = line.split(':')
-      next unless title and data 
+      next unless title and data
       nrs = grep_numbers(data)
 
-      case title 
+      case title
       when "Total" then
         res['conns']    = nrs[0]
         res['requests'] = nrs[1]
         res['replies']  = nrs[2]
         res['duration'] = nrs[3]
-      when "Connection rate" then 
+      when "Connection rate" then
         res['conn/s']               = nrs[0]
         res['ms/connection']        = nrs[1]
         res['concurrent connections max'] = nrs[2]
@@ -51,7 +51,7 @@ module Httperf
         else
           next unless data.start_with?(" connect")
           res['conn time connect'] = nrs[0]
-        end          
+        end
       when "Connection length [replies/conn]" then
         res['conn length replies/conn'] = nrs[0]
       when "Request rate" then
@@ -65,7 +65,7 @@ module Httperf
         res['replies/s max']    = nrs[2]
         res['replies/s stddev'] = nrs[3]
       when "Reply time [ms]" then
-        res['reply time response'] = nrs[0] 
+        res['reply time response'] = nrs[0]
         res['reply time transfer'] = nrs[1]
       when "Reply size [B]" then
         res['reply size header']  = nrs[0]
@@ -73,11 +73,11 @@ module Httperf
         res['reply size footer']  = nrs[2]
         res['reply size total']   = nrs[3]
       when "Reply status" then
-        res['status 1xx'] = nrs[0] 
+        res['status 1xx'] = nrs[0]
         res['status 2xx'] = nrs[1]
-        res['status 3xx'] = nrs[2] 
+        res['status 3xx'] = nrs[2]
         res['status 4xx'] = nrs[3]
-        res['status 5xx'] = nrs[4] 
+        res['status 5xx'] = nrs[4]
       when "CPU time [s]" then
         res['cpu time user']     = nrs[0]
         res['cpu time system']   = nrs[1]
@@ -86,7 +86,7 @@ module Httperf
         res['cpu time total %']  = nrs[4]
       when "Net I/O" then
         unit = line.match(/Net I\/O: [\d]+\.[\d+] ([^ ]+)/)
-        res["net i/o (#{unit[1]})"] = nrs[0] 
+        res["net i/o (#{unit[1]})"] = nrs[0]
       when "Errors" then
         if data.start_with?(' total')
           res['errors total']       = nrs[0]
